@@ -1,4 +1,4 @@
-package vn.hoidanit.jobhunter;
+package vn.trinhlam.jobhunter;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
