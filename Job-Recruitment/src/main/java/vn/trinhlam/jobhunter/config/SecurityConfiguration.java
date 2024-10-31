@@ -23,13 +23,15 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
+                .csrf(c -> c.disable())
                 .authorizeHttpRequests(
                         auth -> auth
                                 .requestMatchers("/")
                                 .permitAll()
-                                .anyRequest().authenticated()
+                                .anyRequest().permitAll()
 
                 )
+                .formLogin(f -> f.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return httpSecurity.build();
 

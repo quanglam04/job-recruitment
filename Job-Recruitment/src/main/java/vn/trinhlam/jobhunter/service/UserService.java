@@ -24,6 +24,10 @@ public class UserService {
         this.userRepository.deleteById(id);
     }
 
+    public User getUserByUsername(String userName) {
+        return this.userRepository.findByEmail(userName);
+    }
+
     public User getUserById(Long id) {
         Optional<User> user = this.userRepository.findById(id);
         if (user.isPresent()) {
