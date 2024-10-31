@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import vn.trinhlam.jobhunter.domain.User;
 import vn.trinhlam.jobhunter.service.UserService;
-import vn.trinhlam.jobhunter.service.error.IdInvalidException;
+import vn.trinhlam.jobhunter.util.error.IdInvalidException;
 
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PutMapping;

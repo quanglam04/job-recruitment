@@ -1,4 +1,4 @@
-package vn.trinhlam.jobhunter.service.error;
+package vn.trinhlam.jobhunter.util.error;
 
 public class IdInvalidException extends Exception {
     public IdInvalidException(String message) {

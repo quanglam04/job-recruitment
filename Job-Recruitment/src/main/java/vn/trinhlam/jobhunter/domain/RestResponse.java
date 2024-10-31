@@ -1,6 +1,6 @@
 package vn.trinhlam.jobhunter.domain;
 
-public class RestRespone<T> {
+public class RestResponse<T> {
     private int statusCode;
     private String error;
 
