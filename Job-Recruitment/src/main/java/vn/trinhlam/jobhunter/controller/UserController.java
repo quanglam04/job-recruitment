@@ -1,8 +1,11 @@
 package vn.trinhlam.jobhunter.controller;
 
+import java.lang.StackWalker.Option;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import vn.trinhlam.jobhunter.domain.User;
+import vn.trinhlam.jobhunter.domain.dto.ResultPaginationDTO;
 import vn.trinhlam.jobhunter.service.UserService;
 import vn.trinhlam.jobhunter.util.error.IdInvalidException;
 
@@ -58,8 +62,16 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getAllUser() {
-        List<User> list = this.userService.fetchAllUser();
+    public ResponseEntity<ResultPaginationDTO> getAllUser(
+            @RequestParam("current") Optional<String> currentOptional,
+            @RequestParam("pageSize") Optional<String> pageSizeOptional
+
+    ) {
+
+        String sCurrent = currentOptional.isPresent() ? currentOptional.get() : "";
+        String sPageSize = pageSizeOptional.isPresent() ? pageSizeOptional.get() : "";
+        Pageable pageable = PageRequest.of(Integer.parseInt(sCurrent) - 1, Integer.parseInt(sPageSize));
+        ResultPaginationDTO list = this.userService.fetchAllUser(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(list);
 
     }
