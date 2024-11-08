@@ -1,21 +1,16 @@
 package vn.trinhlam.jobhunter.controller;
 
-import java.lang.StackWalker.Option;
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.turkraft.springfilter.boot.Filter;
@@ -23,12 +18,13 @@ import com.turkraft.springfilter.boot.Filter;
 import vn.trinhlam.jobhunter.domain.User;
 import vn.trinhlam.jobhunter.domain.dto.ResultPaginationDTO;
 import vn.trinhlam.jobhunter.service.UserService;
+import vn.trinhlam.jobhunter.util.annotation.ApiMessage;
 import vn.trinhlam.jobhunter.util.error.IdInvalidException;
 
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
+@RequestMapping("/api/v1")
 public class UserController {
 
     private final UserService userService;
@@ -65,6 +61,7 @@ public class UserController {
     }
 
     @GetMapping("/users")
+    @ApiMessage("fetch all users")
     public ResponseEntity<ResultPaginationDTO> getAllUser(
             @Filter Specification<User> spec,
             Pageable pageable
