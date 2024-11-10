@@ -1,4 +1,4 @@
-package vn.trinhlam.jobhunter.domain.dto;
+package vn.trinhlam.jobhunter.domain.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -22,6 +22,7 @@ public class ResLoginDTO {
         private long id;
         private String email;
         private String name;
+
     }
 
     @Setter
@@ -30,7 +31,6 @@ public class ResLoginDTO {
     @NoArgsConstructor
     public static class UserGetAccount {
         private UserLogin userLogin;
-
     }
 
 }

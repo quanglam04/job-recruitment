@@ -25,7 +25,7 @@ import org.springframework.stereotype.Service;
 
 import com.nimbusds.jose.util.Base64;
 
-import vn.trinhlam.jobhunter.domain.dto.ResLoginDTO;
+import vn.trinhlam.jobhunter.domain.response.ResLoginDTO;
 
 @Service
 public class SecurityUtil {
@@ -52,7 +52,6 @@ public class SecurityUtil {
         Instant validity = now.plus(this.accessTokenExpiration, ChronoUnit.SECONDS);
 
         List<String> listAuthority = new ArrayList<>();
-
         listAuthority.add("ROLE_USER_CREATE");
         listAuthority.add("ROLE_USER_UPDATE");
 
@@ -68,6 +67,8 @@ public class SecurityUtil {
         JwsHeader jwsHeader = JwsHeader.with(JWT_ALGORITHM).build();
         return this.jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader, claims)).getTokenValue();
 
+
+        
     }
 
     public String createRefreshToken(String email, ResLoginDTO resLoginDTO) {

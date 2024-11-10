@@ -17,10 +17,10 @@ import com.turkraft.springfilter.boot.Filter;
 
 import jakarta.validation.Valid;
 import vn.trinhlam.jobhunter.domain.User;
-import vn.trinhlam.jobhunter.domain.dto.ResCreateUserDTO;
-import vn.trinhlam.jobhunter.domain.dto.ResUpdateDTO;
-import vn.trinhlam.jobhunter.domain.dto.ResUserDTO;
-import vn.trinhlam.jobhunter.domain.dto.ResultPaginationDTO;
+import vn.trinhlam.jobhunter.domain.response.ResCreateUserDTO;
+import vn.trinhlam.jobhunter.domain.response.ResUpdateDTO;
+import vn.trinhlam.jobhunter.domain.response.ResUserDTO;
+import vn.trinhlam.jobhunter.domain.response.ResultPaginationDTO;
 import vn.trinhlam.jobhunter.service.UserService;
 import vn.trinhlam.jobhunter.util.annotation.ApiMessage;
 import vn.trinhlam.jobhunter.util.error.IdInvalidException;

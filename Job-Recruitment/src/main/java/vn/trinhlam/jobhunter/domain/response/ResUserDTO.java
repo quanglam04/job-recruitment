@@ -1,4 +1,4 @@
-package vn.trinhlam.jobhunter.domain.dto;
+package vn.trinhlam.jobhunter.domain.response;
 
 import java.time.Instant;
 
@@ -22,5 +22,16 @@ public class ResUserDTO {
     private Instant createdAt;
     private Instant updatedAt;
     private String email;
+    private CompanyUser company;
+
+    @Setter
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class CompanyUser {
+        private long id;
+        private String name;
+
+    }
 
 }

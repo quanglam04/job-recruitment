@@ -9,16 +9,19 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import vn.trinhlam.jobhunter.domain.Company;
-import vn.trinhlam.jobhunter.domain.dto.Meta;
-import vn.trinhlam.jobhunter.domain.dto.ResultPaginationDTO;
+import vn.trinhlam.jobhunter.domain.User;
+import vn.trinhlam.jobhunter.domain.response.ResultPaginationDTO;
 import vn.trinhlam.jobhunter.repository.CompanyRepository;
+import vn.trinhlam.jobhunter.repository.UserRepository;
 
 @Service
 public class CompanyService {
     private final CompanyRepository companyRepository;
+    private final UserRepository userRepository;
 
-    public CompanyService(CompanyRepository companyRepository) {
+    public CompanyService(CompanyRepository companyRepository, UserRepository userRepository) {
         this.companyRepository = companyRepository;
+        this.userRepository = userRepository;
     }
 
     public Company handleCreateCompany(Company c) {
@@ -28,10 +31,11 @@ public class CompanyService {
     public ResultPaginationDTO handleGetCompany(Specification<Company> specification, Pageable pageable) {
         Page<Company> pCompany = this.companyRepository.findAll(specification, pageable);
         ResultPaginationDTO rs = new ResultPaginationDTO();
-        Meta mt = new Meta();
+        ResultPaginationDTO.Meta mt = new ResultPaginationDTO.Meta();
 
         mt.setPage(pCompany.getNumber() + 1);
         mt.setPageSize(pCompany.getSize());
+        System.out.println(pCompany.getSize() + ">>>>>>>>>>>>>>>>>>>>>>>");
 
         mt.setPages(pCompany.getTotalPages());
         mt.setTotal(pCompany.getTotalElements());
@@ -58,9 +62,18 @@ public class CompanyService {
     public void handleDeleteCompany(long id) {
         Optional<Company> cOptional = this.companyRepository.findById(id);
         if (cOptional.isPresent()) {
-            this.companyRepository.delete(cOptional.get());
+            Company company = cOptional.get();
+            List<User> users = this.userRepository.findByCompany(company);
+            this.userRepository.deleteAll(users);
+
         }
+        this.companyRepository.deleteById(id);
+
         return;
+    }
+
+    public Optional findById(long id) {
+        return this.companyRepository.findById(id);
     }
 
 }

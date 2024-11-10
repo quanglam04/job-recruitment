@@ -6,7 +6,7 @@ import com.turkraft.springfilter.boot.Filter;
 
 import jakarta.validation.Valid;
 import vn.trinhlam.jobhunter.domain.Company;
-import vn.trinhlam.jobhunter.domain.dto.ResultPaginationDTO;
+import vn.trinhlam.jobhunter.domain.response.ResultPaginationDTO;
 import vn.trinhlam.jobhunter.service.CompanyService;
 import vn.trinhlam.jobhunter.util.annotation.ApiMessage;
 
