@@ -37,7 +37,7 @@ public class Company {
     private String logo;
 
     // @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss a", timezone = "GMT+7")
-    private Instant createAt;
+    private Instant createdAt;
 
     private Instant updatedAt;
 
@@ -50,7 +50,7 @@ public class Company {
         this.createdby = SecurityUtil.getCurrentUserLogin().isPresent() == true
                 ? SecurityUtil.getCurrentUserLogin().get()
                 : "";
-        this.createAt = Instant.now();
+        this.createdAt = Instant.now();
     }
 
     @PreUpdate
