@@ -20,13 +20,10 @@ import jakarta.validation.Valid;
 import vn.trinhlam.jobhunter.domain.User;
 import vn.trinhlam.jobhunter.domain.request.RequestLoginDTO;
 import vn.trinhlam.jobhunter.domain.response.ResLoginDTO;
-import vn.trinhlam.jobhunter.domain.response.ResLoginDTO.UserLogin;
 import vn.trinhlam.jobhunter.service.UserService;
 import vn.trinhlam.jobhunter.util.SecurityUtil;
 import vn.trinhlam.jobhunter.util.annotation.ApiMessage;
 import vn.trinhlam.jobhunter.util.error.IdInvalidException;
-
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/api/v1")

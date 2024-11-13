@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,12 +20,14 @@ import com.turkraft.springfilter.boot.Filter;
 
 import jakarta.validation.Valid;
 import vn.trinhlam.jobhunter.domain.Job;
+import vn.trinhlam.jobhunter.domain.Resume;
 import vn.trinhlam.jobhunter.domain.response.ResultPaginationDTO;
 import vn.trinhlam.jobhunter.domain.response.job.ResCreateJobDTO;
 import vn.trinhlam.jobhunter.domain.response.job.ResUpdateJobDTO;
 import vn.trinhlam.jobhunter.service.JobService;
 import vn.trinhlam.jobhunter.util.annotation.ApiMessage;
 import vn.trinhlam.jobhunter.util.error.IdInvalidException;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -49,7 +52,7 @@ public class JobController {
             throw new IdInvalidException("Job không tìm thấy");
         }
 
-        return ResponseEntity.ok().body(this.jobService.update(job));
+        return ResponseEntity.ok().body(this.jobService.update(job, currentJob.get()));
     }
 
     @DeleteMapping("/jobs/{id}")
