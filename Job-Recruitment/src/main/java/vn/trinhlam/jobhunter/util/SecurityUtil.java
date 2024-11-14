@@ -80,7 +80,7 @@ public class SecurityUtil {
             .issuedAt(now)
             .expiresAt(validity)
             .subject(email)
-            .claim("trinhlam", resLoginDTO.getUserLogin())
+            .claim("trinhlam", resLoginDTO.getUser())
             .build();
 
         JwsHeader jwsHeader = JwsHeader.with(JWT_ALGORITHM).build();

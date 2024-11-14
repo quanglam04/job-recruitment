@@ -56,7 +56,7 @@ public class AuthController {
             userLogin.setId(currentUser.getId());
             userLogin.setEmail(currentUser.getEmail());
             userLogin.setName(currentUser.getName());
-            userGetAccount.setUserLogin(userLogin);
+            userGetAccount.setUser(userLogin);
         }
         return ResponseEntity.ok().body(userGetAccount);
     }
@@ -78,10 +78,10 @@ public class AuthController {
 
             ResLoginDTO.UserLogin userLogin = new ResLoginDTO.UserLogin(currentUser.getId(), currentUser.getEmail(),
                     currentUser.getName());
-            res.setUserLogin(userLogin);
+            res.setUser(userLogin);
         }
 
-        String accessToken = this.securityUtil.createAccessToken(authentication.getName(), res.getUserLogin());
+        String accessToken = this.securityUtil.createAccessToken(authentication.getName(), res.getUser());
 
         res.setAccessToken(accessToken);
 
@@ -129,10 +129,10 @@ public class AuthController {
 
             ResLoginDTO.UserLogin userLogin = new ResLoginDTO.UserLogin(currentUser.getId(), currentUser.getEmail(),
                     currentUser.getName());
-            res.setUserLogin(userLogin);
+            res.setUser(userLogin);
         }
 
-        String accessToken = this.securityUtil.createAccessToken(email, res.getUserLogin());
+        String accessToken = this.securityUtil.createAccessToken(email, res.getUser());
 
         res.setAccessToken(accessToken);
 
