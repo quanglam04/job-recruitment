@@ -48,7 +48,7 @@ public class ResumeService {
         if (resume.getJob() == null)
             return false;
         Optional<Job> jobOptional = this.jobRepository.findById(resume.getJob().getId());
-        if (jobOptional.isPresent())
+        if (jobOptional.isEmpty())
             return false;
 
         return true;
