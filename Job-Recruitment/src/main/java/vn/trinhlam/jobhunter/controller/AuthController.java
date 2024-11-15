@@ -2,12 +2,14 @@ package vn.trinhlam.jobhunter.controller;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import vn.trinhlam.jobhunter.domain.User;
 import vn.trinhlam.jobhunter.domain.request.RequestLoginDTO;
+import vn.trinhlam.jobhunter.domain.response.ResCreateUserDTO;
 import vn.trinhlam.jobhunter.domain.response.ResLoginDTO;
 import vn.trinhlam.jobhunter.service.UserService;
 import vn.trinhlam.jobhunter.util.SecurityUtil;
@@ -31,15 +34,17 @@ public class AuthController {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final SecurityUtil securityUtil;
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
     @Value("${trinhlam.jwt.refresh-token-validity-in-seconds}")
     private long refreshTokenExpiration;
 
     public AuthController(AuthenticationManagerBuilder authenticationManagerBuilder, SecurityUtil securityUtil,
-            UserService userService) {
+            UserService userService, PasswordEncoder passwordEncoder) {
         this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.securityUtil = securityUtil;
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/auth/account")
@@ -56,6 +61,7 @@ public class AuthController {
             userLogin.setId(currentUser.getId());
             userLogin.setEmail(currentUser.getEmail());
             userLogin.setName(currentUser.getName());
+            userLogin.setRole(currentUser.getRole());
             userGetAccount.setUser(userLogin);
         }
         return ResponseEntity.ok().body(userGetAccount);
@@ -77,11 +83,11 @@ public class AuthController {
         if (currentUser != null) {
 
             ResLoginDTO.UserLogin userLogin = new ResLoginDTO.UserLogin(currentUser.getId(), currentUser.getEmail(),
-                    currentUser.getName());
+                    currentUser.getName(), currentUser.getRole());
             res.setUser(userLogin);
         }
 
-        String accessToken = this.securityUtil.createAccessToken(authentication.getName(), res.getUser());
+        String accessToken = this.securityUtil.createAccessToken(authentication.getName(), res);
 
         res.setAccessToken(accessToken);
 
@@ -128,11 +134,11 @@ public class AuthController {
         if (currentUser != null) {
 
             ResLoginDTO.UserLogin userLogin = new ResLoginDTO.UserLogin(currentUser.getId(), currentUser.getEmail(),
-                    currentUser.getName());
+                    currentUser.getName(), currentUser.getRole());
             res.setUser(userLogin);
         }
 
-        String accessToken = this.securityUtil.createAccessToken(email, res.getUser());
+        String accessToken = this.securityUtil.createAccessToken(email, res);
 
         res.setAccessToken(accessToken);
 
@@ -172,11 +178,23 @@ public class AuthController {
                 .path("/")
                 .maxAge(0)
                 .build();
-        // TODO: process POST request
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, deleteSpringCookies.toString())
                 .body(null);
+    }
+
+    @PostMapping("/auth/register")
+    @ApiMessage("RegisterUser")
+    public ResponseEntity<ResCreateUserDTO> register(@Valid @RequestBody User user) throws IdInvalidException {
+        boolean isEmailExist = this.userService.isEmailExist(user.getEmail());
+        if (isEmailExist) {
+            throw new IdInvalidException("Email đã tồn tại");
+        }
+        String hashPassword = this.passwordEncoder.encode(user.getPassword());
+        user.setPassword(hashPassword);
+        User newUser = this.userService.createUser(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.convertToResCreateUserDTO(newUser));
     }
 
 }

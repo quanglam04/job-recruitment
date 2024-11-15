@@ -23,6 +23,7 @@ public class ResUserDTO {
     private Instant updatedAt;
     private String email;
     private CompanyUser company;
+    private RoleUser role;
 
     @Setter
     @Getter
@@ -32,6 +33,15 @@ public class ResUserDTO {
         private long id;
         private String name;
 
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class RoleUser {
+        private long id;
+        private String name;
     }
 
 }

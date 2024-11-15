@@ -44,7 +44,7 @@ public class Company {
 
     private Instant updatedAt;
 
-    private String createdby;
+    private String createdBy;
 
     private String updatedBy;
 
@@ -58,7 +58,7 @@ public class Company {
 
     @PrePersist
     public void handleBeforeCreated() {
-        this.createdby = SecurityUtil.getCurrentUserLogin().isPresent() == true
+        this.createdBy = SecurityUtil.getCurrentUserLogin().isPresent() == true
                 ? SecurityUtil.getCurrentUserLogin().get()
                 : "";
         this.createdAt = Instant.now();
