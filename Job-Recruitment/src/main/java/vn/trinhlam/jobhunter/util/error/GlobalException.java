@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
+import io.micrometer.core.ipc.http.HttpSender.Response;
+import lombok.val;
 import vn.trinhlam.jobhunter.domain.response.RestResponse;
 
 @RestControllerAdvice
@@ -64,6 +66,16 @@ public class GlobalException {
         res.setMessage("Exeption upload file...");
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
+    }
+
+    @ExceptionHandler(value = { PermissionException.class })
+    public ResponseEntity<RestResponse<Object>> handlePermissionException(Exception exception) {
+        RestResponse<Object> response = new RestResponse<Object>();
+        response.setStatusCode(HttpStatus.FORBIDDEN.value());
+        response.setMessage("Forbidden");
+        response.setError(exception.getMessage());
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
     }
 
 }
