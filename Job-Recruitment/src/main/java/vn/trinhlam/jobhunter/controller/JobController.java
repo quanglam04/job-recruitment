@@ -20,14 +20,12 @@ import com.turkraft.springfilter.boot.Filter;
 
 import jakarta.validation.Valid;
 import vn.trinhlam.jobhunter.domain.Job;
-import vn.trinhlam.jobhunter.domain.Resume;
 import vn.trinhlam.jobhunter.domain.response.ResultPaginationDTO;
 import vn.trinhlam.jobhunter.domain.response.job.ResCreateJobDTO;
 import vn.trinhlam.jobhunter.domain.response.job.ResUpdateJobDTO;
 import vn.trinhlam.jobhunter.service.JobService;
 import vn.trinhlam.jobhunter.util.annotation.ApiMessage;
 import vn.trinhlam.jobhunter.util.error.IdInvalidException;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/api/v1")
